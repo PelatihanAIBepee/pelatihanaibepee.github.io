@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Pelatihan AI - Bintang Pamungkas Nusantara</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           CSS VARIABLES & RESET
+        ========================================= */
+        :root {
+            --navy: #071B49;
+            --blue-bright: #155EEF;
+            --blue-light: #2F80ED;
+            --gold: #C59B27;
+            --bg-light: #F7F9FC;
+            
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --blue-50: #eff6ff;
+            --green-500: #22c55e;
+        }
+
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-800);
+            background-color: var(--bg-light);
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 5rem; /* mobile bottom padding for sticky CTA */
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) { body { padding-bottom: 0; } }
+
+        a { text-decoration: none; color: inherit; display: inline-block; transition: all 0.3s ease; }
+        ul { list-style: none; }
+        
+        /* Global Image Responsive */
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* =========================================
+           UTILITY CLASSES
+        ========================================= */
+        .bg-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, var(--gold), #fef08a, var(--gold));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-padding { padding: 4rem 1.25rem; }
+        @media (min-width: 768px) { .section-padding { padding: 6rem 2rem; } }
+        
+        /* Fluid widths */
+        .container-fluid { width: 100%; margin: 0 auto; }
+        .max-w-3xl { max-width: 48rem; }
+        .max-w-4xl { max-width: 56rem; }
+        .max-w-5xl { max-width: 64rem; }
+        .text-center { text-align: center; }
+
+        /* =========================================
+           STICKY BOTTOM CTA (Mobile Only)
+        ========================================= */
+        .sticky-cta {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: white; border-top: 1px solid var(--gray-200);
+            padding: 1rem 1.25rem; box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            z-index: 50; display: flex; justify-content: space-between; align-items: center;
+        }
+        @media (min-width: 768px) { .sticky-cta { display: none; } }
+        
+        .sticky-cta p:first-child { font-size: 0.75rem; color: var(--gray-500); font-weight: 500; }
+        .sticky-cta p:last-child { font-size: 1.125rem; font-weight: 800; color: var(--navy); }
+        .btn-sticky {
+            background-color: var(--blue-bright); color: white;
+            padding: 0.75rem 1.5rem; border-radius: 9999px;
+            font-weight: 700; font-size: 0.875rem;
+            box-shadow: 0 10px 15px -3px rgba(21, 94, 239, 0.3);
+        }
+        .btn-sticky:active { transform: scale(0.95); }
+
+        /* =========================================
+           1. HERO SECTION
+        ========================================= */
+        .hero {
+            position: relative; background-color: var(--navy); color: white;
+            padding: 5rem 1.25rem 6rem; overflow: hidden;
+        }
+        @media (min-width: 768px) { .hero { padding: 8rem 2rem 10rem; } }
+
+        .hero-blur-1 {
+            position: absolute; top: -5rem; right: -5rem;
+            width: 16rem; height: 16rem; border-radius: 50%;
+            background-color: var(--blue-bright); opacity: 0.2; filter: blur(3rem);
+        }
+        .hero-blur-2 {
+            position: absolute; bottom: -5rem; left: -5rem;
+            width: 20rem; height: 20rem; border-radius: 50%;
+            background-color: var(--blue-light); opacity: 0.1; filter: blur(3rem);
+        }
+        
+        .hero-content { position: relative; margin-top: 2rem; z-index: 10; }
+        
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.375rem 1rem; border-radius: 9999px;
+            background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.875rem; font-weight: 500; margin-bottom: 2rem; backdrop-filter: blur(4px);
+        }
+        .dot-pulse {
+            width: 0.5rem; height: 0.5rem; border-radius: 50%; background-color: var(--gold);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+        /* Fluid Typography using Clamp */
+        .hero-title {
+            font-size: clamp(2.25rem, 5vw + 1rem, 4.5rem); 
+            font-weight: 800; letter-spacing: -0.025em;
+            line-height: 1.1; margin-bottom: 1.5rem;
+        }
+
+        .hero-desc { 
+            font-size: clamp(1rem, 2vw + 0.5rem, 1.25rem); 
+            color: var(--gray-300); max-width: 42rem; margin: 0 auto 1.5rem; line-height: 1.625; 
+        }
+
+        .hero-author { font-size: 0.875rem; color: var(--gray-400); margin-bottom: 2.5rem; }
+        .hero-author span { color: white; font-weight: 600; }
+        @media (min-width: 768px) { .hero-author { font-size: 1rem; } }
+
+        .hero-btn-group { 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; gap: 1rem; margin-bottom: 3rem; 
+        }
+        @media (min-width: 640px) { .hero-btn-group { flex-direction: row; } }
+        
+        .btn-large { 
+            width: 100%; padding: 1rem 2rem; border-radius: 9999px; 
+            font-weight: 700; font-size: 1rem; display: flex; 
+            justify-content: center; align-items: center; gap: 0.5rem;
+        }
+        @media (min-width: 640px) { .btn-large { width: auto; font-size: 1.125rem; } }
+        
+        .btn-primary { background-color: var(--blue-bright); color: white; box-shadow: 0 10px 15px -3px rgba(21, 94, 239, 0.3); }
+        .btn-primary:hover { background-color: #114cbe; transform: translateY(-4px); }
+        .btn-outline { background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; backdrop-filter: blur(4px); }
+        .btn-outline:hover { background-color: rgba(255,255,255,0.2); }
+
+        .hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--gray-400); }
+        @media (min-width: 768px) { .hero-tags { gap: 1rem; font-size: 0.875rem; } }
+        .hero-tags span { padding: 0.35rem 0.75rem; border-radius: 9999px; background-color: rgba(255,255,255,0.05); }
+
+        /* =========================================
+           3. HOOK SECTION
+        ========================================= */
+        .hook-section { background-color: white; }
+        .hook-title { font-size: clamp(1.5rem, 4vw + 0.5rem, 2.25rem); font-weight: 700; color: var(--navy); margin-bottom: 2rem; line-height: 1.3; }
+        .hook-title span { color: var(--blue-bright); }
+        
+        .hook-text { color: var(--gray-600); font-size: clamp(1rem, 2vw + 0.5rem, 1.25rem); margin-bottom: 3rem; display: flex; flex-direction: column; gap: 1rem; }
+        .hook-text strong { color: var(--navy); font-size: clamp(1.125rem, 2.5vw + 0.5rem, 1.5rem); margin-top: 1.5rem; }
+
+        /* Responsive Flow Diagram (Stack on mobile, horizontal on PC) */
+        .flow-diagram { 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; gap: 1rem; font-weight: 700; font-size: 1.25rem; 
+        }
+        @media (min-width: 640px) { 
+            .flow-diagram { flex-direction: row; gap: 1.5rem; font-size: 1.5rem; } 
+        }
+        .flow-box { padding: 1rem 1.5rem; border-radius: 1rem; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); width: 100%; max-width: 12rem; }
+        @media (min-width: 640px) { .flow-box { width: auto; max-width: none; } }
+        
+        .flow-box.light { background-color: var(--bg-light); border: 1px solid var(--gray-100); color: var(--navy); }
+        .flow-box.blue { background-color: var(--blue-50); color: var(--blue-bright); border: 1px solid #dbeafe; }
+        .flow-box.navy { background-color: var(--navy); color: var(--gold); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        
+        .flow-arrow { color: var(--blue-bright); font-size: 1.5rem; }
+        .flow-arrow i { transform: rotate(90deg); }
+        @media (min-width: 640px) { .flow-arrow i { transform: rotate(0deg); } }
+
+        /* =========================================
+           2. SOCIAL PROOF
+        ========================================= */
+        .proof-section { background-color: var(--bg-light); border-top: 1px solid var(--gray-100); border-bottom: 1px solid var(--gray-100); }
+        .section-subtitle { font-size: 0.875rem; font-weight: 700; color: var(--blue-bright); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .section-title { font-size: clamp(1.75rem, 3.5vw + 0.5rem, 2.25rem); font-weight: 800; color: var(--navy); margin-bottom: 1rem; line-height: 1.3; }
+        .section-desc { color: var(--gray-600); font-size: clamp(0.875rem, 1.5vw + 0.5rem, 1.125rem); max-width: 42rem; margin: 0 auto; margin-bottom: 3rem; }
+
+        .proof-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 768px) { .proof-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        .proof-card { background-color: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); border: 1px solid var(--gray-100); position: relative; overflow: hidden; text-align: left; }
+        .proof-card:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        
+        .proof-icon { width: 3rem; height: 3rem; background-color: var(--blue-50); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: var(--blue-bright); font-size: 1.25rem; margin-bottom: 1rem; }
+        .proof-title { font-weight: 700; color: var(--navy); font-size: 1.125rem; margin-bottom: 0.25rem; }
+        .proof-subtitle { font-size: 0.875rem; font-weight: 600; color: var(--gray-500); margin-bottom: 0.75rem; }
+        .proof-text { font-size: 0.875rem; color: var(--gray-600); line-height: 1.5; }
+        
+        .badge-corner { position: absolute; top: 0; right: 0; font-size: 0.625rem; font-weight: 800; padding: 0.35rem 0.75rem; border-bottom-left-radius: 0.5rem; letter-spacing: 0.05em; }
+        .badge-gold { background-color: var(--gold); color: white; }
+        .badge-gray { background-color: var(--gray-200); color: var(--gray-600); }
+
+        /* =========================================
+           4. SHOWCASE
+        ========================================= */
+        .showcase-section { background-color: var(--navy); color: white; }
+        .showcase-desc { color: var(--gray-300); font-size: clamp(0.875rem, 1.5vw + 0.5rem, 1.125rem); max-width: 42rem; margin: 0 auto 3rem; }
+        
+        /* Grid responsive bertahap */
+        .showcase-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        @media (min-width: 480px) { .showcase-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .showcase-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
+        
+        .showcase-item { background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 1.5rem; cursor: default; transition: background-color 0.3s; }
+        .showcase-item:hover { background-color: rgba(255,255,255,0.1); }
+        .showcase-icon { font-size: 2.25rem; color: var(--blue-light); margin-bottom: 1rem; transition: transform 0.3s; }
+        .showcase-item:hover .showcase-icon { transform: scale(1.1); }
+        .showcase-title { font-weight: 600; font-size: 1.125rem; }
+        
+        .showcase-footer { margin-top: 3rem; font-size: clamp(1.25rem, 3vw + 0.5rem, 1.75rem); font-weight: 700; color: var(--gold); line-height: 1.3; }
+
+        /* =========================================
+           5. BENEFIT
+        ========================================= */
+        .benefit-section { background-color: var(--bg-light); }
+        .benefit-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; text-align: left; }
+        @media (min-width: 768px) { .benefit-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .benefit-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        .benefit-card { background-color: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.04); border: 1px solid var(--gray-100); display: flex; flex-direction: column; height: 100%; }
+        @media (min-width: 1024px) { .row-span-2 { grid-row: span 2 / span 2; } }
+        
+        .benefit-num { color: var(--gray-200); font-weight: 700; font-size: 2.5rem; margin-bottom: 1rem; font-family: serif; font-style: italic; line-height: 1; }
+        .benefit-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .benefit-text { color: var(--gray-600); font-size: 0.875rem; line-height: 1.625; }
+        
+        .benefit-bonus { background-color: var(--blue-50); padding: 1rem; border-radius: 0.75rem; border: 1px solid #dbeafe; margin-top: auto; margin-top: 1rem; }
+        .benefit-bonus p { font-size: 0.75rem; color: #1e40af; line-height: 1.5; }
+
+        /* =========================================
+           6. USE CASES
+        ========================================= */
+        .usecase-section { background-color: white; border-bottom: 1px solid var(--gray-100); }
+        .usecase-list { display: flex; flex-direction: column; gap: 2rem; text-align: left; }
+        @media (min-width: 768px) { .usecase-list { gap: 1.5rem; } }
+        
+        .usecase-item { display: flex; align-items: flex-start; gap: 1rem; }
+        .usecase-icon { width: 2.5rem; height: 2.5rem; border-radius: 50%; background-color: var(--blue-50); display: flex; align-items: center; justify-content: center; color: var(--blue-bright); flex-shrink: 0; }
+        .usecase-title { font-weight: 700; font-size: 1.125rem; color: var(--navy); margin-bottom: 0.25rem; }
+        .usecase-text { color: var(--gray-600); line-height: 1.5; font-size: 0.95rem; }
+        
+        .usecase-banner { margin-top: 4rem; background-color: var(--navy); color: white; padding: 2rem; border-radius: 1.5rem; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .usecase-banner h3 { font-size: clamp(1.25rem, 3vw + 0.5rem, 1.75rem); font-weight: 700; margin-bottom: 0.75rem; color: var(--gold); }
+        .usecase-banner p { font-size: clamp(1rem, 2vw + 0.5rem, 1.125rem); color: var(--gray-300); }
+
+        /* =========================================
+           7 & 8. TENTANG & CREDENTIALS
+        ========================================= */
+        .about-section { background-color: var(--bg-light); text-align: left; }
+        
+        .about-card { background-color: white; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.04); border: 1px solid var(--gray-100); display: flex; flex-direction: column; }
+        @media (min-width: 768px) { .about-card { flex-direction: row; } }
+        
+        .about-photo-area { background-color: var(--navy); padding: 3rem 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+        @media (min-width: 768px) { .about-photo-area { width: 40%; } }
+        
+        .about-photo { width: 10rem; height: 10rem; background-color: var(--gray-300); border-radius: 50%; border: 4px solid rgba(255,255,255,0.2); margin-bottom: 1.5rem; position: relative; z-index: 10; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        @media (min-width: 768px) { .about-photo { width: 12rem; height: 12rem; } }
+        .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .about-name { font-size: 1.5rem; font-weight: 800; color: white; margin-bottom: 0.25rem; text-align: center; position: relative; z-index: 10; }
+        .about-role { color: #bfdbfe; font-size: 0.875rem; text-align: center; position: relative; z-index: 10; }
+        .about-bg-icon { position: absolute; bottom: -2.5rem; right: -2.5rem; font-size: 8rem; color: white; opacity: 0.05; }
+        
+        .about-bio-area { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+        @media (min-width: 768px) { .about-bio-area { width: 60%; padding: 2.5rem; } }
+        
+        .about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; margin-bottom: 2rem; }
+        .about-tag { padding: 0.35rem 0.75rem; background-color: var(--blue-50); color: var(--blue-bright); border-radius: 9999px; font-size: 0.75rem; font-weight: 700; }
+        .about-quote { border-left: 4px solid var(--gold); padding-left: 1rem; font-style: italic; font-size: 1.125rem; color: var(--navy); font-weight: 500; }
+
+        .cert-list { display: flex; flex-direction: column; gap: 2rem; margin-top: 2.5rem; }
+        .cert-card { background-color: white; border: 1px solid var(--gray-200); border-radius: 1.5rem; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+        @media (min-width: 768px) { .cert-card { flex-direction: row; padding: 2.5rem; } }
+        
+        .cert-img-wrapper { width: 100%; display: flex; justify-content: center; }
+        @media (min-width: 768px) { .cert-img-wrapper { width: 50%; } }
+        .cert-img-wrapper.order-2 { order: 1; }
+        .cert-text.order-1 { order: 2; }
+        @media (min-width: 768px) { .cert-img-wrapper.order-2 { order: 2; } .cert-text.order-1 { order: 1; } }
+        
+        .cert-img { width: 100%; max-width: 28rem; height: auto; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); object-fit: contain; }
+        .cert-logo { width: 8rem; height: auto; object-fit: contain; }
+        @media (min-width: 768px) { .cert-logo { width: 12rem; } }
+        
+        .cert-text { width: 100%; text-align: center; }
+        @media (min-width: 768px) { .cert-text { width: 50%; text-align: left; } }
+        
+        .cert-title { font-size: clamp(1.25rem, 3vw + 0.5rem, 1.875rem); font-weight: 800; color: var(--navy); margin-bottom: 0.5rem; }
+        .cert-subtitle { font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+
+        /* =========================================
+           9. SUASANA
+        ========================================= */
+        .atmosphere-section { background-color: white; border-top: 1px solid var(--gray-100); border-bottom: 1px solid var(--gray-100); }
+        .atmosphere-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+        @media (min-width: 640px) { .atmosphere-grid { grid-template-columns: repeat(3, 1fr); } }
+        .atmosphere-icon { width: 5rem; height: 5rem; margin: 0 auto 1rem; background-color: var(--blue-50); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--blue-bright); font-size: 2rem; }
+        .atmosphere-quote { margin-top: 3rem; text-align: center; font-size: clamp(1rem, 2vw + 0.5rem, 1.125rem); font-weight: 500; color: var(--navy); background-color: var(--bg-light); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--gray-100); }
+
+        /* =========================================
+           10. DETAIL EVENT
+        ========================================= */
+        .event-section { padding: 4rem 1.25rem; background-color: var(--navy); position: relative; overflow: hidden; text-align: left; }
+        @media (min-width: 768px) { .event-section { padding: 6rem 2rem; } }
+        .event-blur { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 48rem; height: 100%; background-color: rgba(21, 94, 239, 0.1); filter: blur(3rem); pointer-events: none; }
+        
+        .event-card { background-color: white; border-radius: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; display: flex; flex-direction: column; position: relative; z-index: 10; margin: 0 auto; }
+        @media (min-width: 768px) { .event-card { flex-direction: row; } }
+        
+        .event-info { padding: 2rem; }
+        @media (min-width: 768px) { .event-info { width: 60%; padding: 3rem; } }
+        
+        .event-title { font-size: clamp(1.5rem, 3.5vw + 0.5rem, 2rem); font-weight: 800; color: var(--navy); margin-bottom: 2rem; line-height: 1.2; }
+        
+        .info-list { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2rem; }
+        .info-item { display: flex; align-items: center; gap: 1rem; color: var(--gray-700); }
+        .info-icon { width: 2.5rem; height: 2.5rem; border-radius: 50%; background-color: var(--blue-50); display: flex; align-items: center; justify-content: center; color: var(--blue-bright); flex-shrink: 0; }
+        .info-label { font-size: 0.75rem; color: var(--gray-500); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+        .info-value { font-weight: 800; color: var(--navy); font-size: 1rem; }
+        @media (min-width: 768px) { .info-value { font-size: 1.125rem; } }
+        
+        .participant-area { border-top: 1px solid var(--gray-100); padding-top: 1.5rem; }
+        .participant-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+        .participant-tag { padding: 0.35rem 0.75rem; background-color: var(--gray-100); color: var(--gray-600); border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; }
+        
+        .event-pricing { padding: 2rem; background-color: var(--bg-light); display: flex; flex-direction: column; justify-content: center; border-top: 1px solid var(--gray-100); }
+        @media (min-width: 768px) { .event-pricing { width: 40%; padding: 3rem; border-top: none; border-left: 1px solid var(--gray-100); } }
+        
+        .htm-label { text-align: center; font-size: 0.875rem; font-weight: 800; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .htm-price { text-align: center; font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem); font-weight: 800; color: var(--navy); margin-bottom: 1.5rem; line-height: 1; }
+        .htm-price span { font-size: clamp(1.25rem, 3vw + 0.5rem, 1.75rem); }
+        
+        .feature-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; font-size: 0.875rem; color: var(--gray-600); }
+        .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-item i { color: var(--green-500); margin-top: 0.25rem; }
+        
+        .btn-block { display: flex; justify-content: center; align-items: center; width: 100%; text-align: center; padding: 1rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.125rem; transition: all 0.3s; margin-bottom: 1rem; }
+        .btn-block:active { transform: scale(0.98); }
+        .btn-wa { background-color: white; border: 1px solid var(--gray-300); color: var(--gray-700); margin-bottom: 0; }
+        .btn-wa:hover { background-color: #f9fafb; border-color: var(--gray-400); }
+
+        /* =========================================
+           11. BIG CTA & FOOTER
+        ========================================= */
+        .big-cta { padding: 6rem 1.25rem; background-color: var(--navy); color: white; text-align: center; }
+        .big-cta-title { font-size: clamp(1.75rem, 4vw + 1rem, 3rem); font-weight: 800; margin-bottom: 1.5rem; line-height: 1.25; }
+        .big-cta-subtitle { font-size: clamp(1.125rem, 2.5vw + 0.5rem, 1.5rem); font-weight: 500; color: var(--gold); margin-bottom: 2.5rem; }
+        
+        .btn-white { display: inline-flex; justify-content: center; align-items: center; background-color: white; color: var(--navy); padding: 1rem 2.5rem; border-radius: 9999px; font-weight: 800; font-size: 1.125rem; transition: all 0.3s; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; width: 100%; max-width: 20rem; }
+        @media (min-width: 640px) { .btn-white { width: auto; font-size: 1.25rem; } }
+        .btn-white:hover { transform: translateY(-4px); background-color: var(--gray-100); }
+        
+        .wa-link { color: white; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: color 0.3s; }
+        .wa-link:hover { color: var(--blue-light); }
+
+        .footer { background-color: #04102c; padding: 4rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        .footer-quote { font-size: clamp(1rem, 2vw + 0.5rem, 1.25rem); font-weight: 500; color: var(--gray-300); margin-bottom: 1.5rem; font-style: italic; line-height: 1.5; }
+        .footer-divider { height: 1px; width: 4rem; background-color: rgba(21, 94, 239, 0.5); margin: 0 auto 1.5rem; }
+        .footer-name { font-weight: 800; color: white; font-size: 1.125rem; }
+        .footer-role { font-size: 0.875rem; color: var(--gray-400); margin-bottom: 2rem; }
+        .footer-copy { font-size: 0.75rem; color: var(--gray-500); }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY BOTTOM CTA (Mobile Only) -->
+    <div class="sticky-cta">
+        <div>
+            <p>HTM Pelatihan</p>
+            <p>Rp75.000</p>
+        </div>
+        <a href="https://forms.gle/ypDzBPNyFh4beBB77" class="btn-sticky">
+            Daftar Sekarang &rarr;
+        </a>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero bg-pattern container-fluid">
+        <div class="hero-blur-1"></div>
+        <div class="hero-blur-2"></div>
+
+        <div class="hero-content text-center container-fluid max-w-4xl">
+            <div class="hero-badge">
+                <span class="dot-pulse"></span>
+                Pelatihan Eksklusif
+            </div>
+            
+            <h1 class="hero-title">
+                Satu Ide. <br />
+                <span class="gradient-text">Banyak Kemungkinan.</span>
+            </h1>
+            
+            <p class="hero-desc">
+                Belajar memanfaatkan Artificial Intelligence untuk mengubah ide menjadi video, lagu, buku digital, presentasi, aplikasi, hingga website—lebih cepat, efektif, dan kreatif.
+            </p>
+
+            <div class="hero-author">
+                <p>Bersama <span>Bintang Pamungkas Nusantara</span></p>
+                <p>Pengembang IT Muda Indonesia &bull; Mahasiswa Informatika UIN SSC</p>
+            </div>
+
+            <div class="hero-btn-group">
+                <a href="https://forms.gle/ypDzBPNyFh4beBB77" class="btn-large btn-primary">
+                    <i class="fa-solid fa-rocket"></i> DAFTAR PELATIHAN
+                </a>
+                <a href="https://wa.me/6282125071845" target="_blank" class="btn-large btn-outline">
+                    <i class="fa-brands fa-whatsapp"></i> Tanya via WhatsApp
+                </a>
+            </div>
+
+            <div class="hero-tags">
+                <span>Pelajar</span>
+                <span>Mahasiswa</span>
+                <span>Nahdliyin</span>
+                <span>Umum</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. HOOK / "KENAPA KALIAN PERLU BELAJAR AI?" -->
+    <section class="section-padding hook-section container-fluid">
+        <div class="max-w-3xl container-fluid text-center">
+            <h2 class="hook-title">
+                "AI sudah gratis di mana-mana. <br />
+                <span>Yang bikin mahal adalah tahu mau dipakai apa.</span>"
+            </h2>
+            
+            <div class="hook-text">
+                <p>Banyak orang sudah mengenal AI.</p>
+                <p>Banyak juga yang sudah mencoba ChatGPT atau Gemini.</p>
+                <p>Tetapi masalahnya bukan lagi <em>"AI bisa apa?"</em></p>
+                <strong>Masalah sebenarnya adalah: <br />"Saya bisa menggunakan AI untuk apa?"</strong>
+            </div>
+
+            <!-- Visual Flow -->
+            <div class="flow-diagram">
+                <div class="flow-box light">IDE</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-box blue">AI</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-box navy">KARYA</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. SOCIAL PROOF (Initial) -->
+    <section class="section-padding proof-section text-center container-fluid">
+        <div class="max-w-5xl container-fluid">
+            <h3 class="section-subtitle">Kredibilitas</h3>
+            <h2 class="section-title">Belajar dari pengalaman nyata</h2>
+            <p class="section-desc">AI bukan sekadar teori yang dipelajari. AI adalah teknologi yang saya gunakan untuk belajar, berkarya, dan mengembangkan berbagai produk digital.</p>
+
+            <div class="proof-grid">
+                <!-- Card 1 -->
+                <div class="proof-card">
+                    <div class="proof-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h4 class="proof-title">Informatika</h4>
+                    <h5 class="proof-subtitle">UIN Siber Syekh Nurjati Cirebon</h5>
+                    <p class="proof-text">Mahasiswa Program Studi Informatika. Memahami dasar teknologi dan logika komputasi.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="proof-card">
+                    <div class="badge-corner badge-gold">CERTIFIED</div>
+                    <div class="proof-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h4 class="proof-title">AI Class ASEAN</h4>
+                    <h5 class="proof-subtitle">Sertifikasi Modul AI</h5>
+                    <p class="proof-text">Sertifikat menyelesaikan seluruh modul pembelajaran AI selama 12 jam (Agustus 2026).</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="proof-card">
+                    <div class="badge-corner badge-gray">ONGOING</div>
+                    <div class="proof-icon"><i class="fa-solid fa-mosque"></i></div>
+                    <h4 class="proof-title">MUI DKI Jakarta</h4>
+                    <h5 class="proof-subtitle">Pelatihan AI Pendidikan</h5>
+                    <p class="proof-text">Peserta Pelatihan AI Bidang Pendidikan & Kaderisasi MUI DKI Jakarta (Sedang proses).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SHOWCASE - "BUKAN CUMA CHAT" -->
+    <section class="section-padding showcase-section text-center container-fluid">
+        <div class="max-w-5xl container-fluid">
+            <h2 class="section-title" style="color: white;">Satu ide bisa menjadi banyak karya.</h2>
+            <p class="showcase-desc">Dalam pelatihan ini, kalian akan diperkenalkan pada workflow AI yang dapat membantu mengembangkan ide menjadi berbagai bentuk karya digital.</p>
+            
+            <div class="showcase-grid">
+                <!-- Grid Items -->
+                <div class="showcase-item">
+                    <div class="showcase-icon"><i class="fa-solid fa-clapperboard"></i></div>
+                    <h3 class="showcase-title">Video</h3>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-icon"><i class="fa-solid fa-music"></i></div>
+                    <h3 class="showcase-title">Lagu</h3>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-icon"><i class="fa-solid fa-book"></i></div>
+                    <h3 class="showcase-title">Buku Digital</h3>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-icon"><i class="fa-solid fa-presentation-screen"></i></div>
+                    <h3 class="showcase-title">Slide Presentasi</h3>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <h3 class="showcase-title">Aplikasi</h3>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-icon"><i class="fa-solid fa-globe"></i></div>
+                    <h3 class="showcase-title">Website</h3>
+                </div>
+            </div>
+            
+            <p class="showcase-footer">
+                Datang dengan ide. <br class="md-hidden"/>Pulang membawa kemungkinan.
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. BENEFIT -->
+    <section class="section-padding benefit-section text-center container-fluid">
+        <div class="max-w-5xl container-fluid">
+            <h2 class="section-title">Apa yang kalian dapatkan?</h2>
+            
+            <div class="benefit-grid">
+                <!-- Benefit 1 -->
+                <div class="benefit-card">
+                    <div class="benefit-num">01</div>
+                    <h3 class="benefit-title"><i class="fa-solid fa-brain" style="color: var(--blue-bright);"></i> Ilmu Kreasi</h3>
+                    <p class="benefit-text">Bukan sekadar mengenal AI, tetapi memahami bagaimana AI dapat digunakan untuk belajar, bekerja, dan berkarya.</p>
+                </div>
+                
+                <!-- Benefit 2 -->
+                <div class="benefit-card">
+                    <div class="benefit-num">02</div>
+                    <h3 class="benefit-title"><i class="fa-solid fa-bento-box" style="color: var(--blue-bright);"></i> Makan Siang</h3>
+                    <p class="benefit-text">Belajar nyaman, pikiran fokus, tanpa perlu repot memikirkan konsumsi makan siang.</p>
+                </div>
+
+                <!-- Benefit 3 -->
+                <div class="benefit-card row-span-2">
+                    <div class="benefit-num">03</div>
+                    <h3 class="benefit-title"><i class="fa-solid fa-certificate" style="color: var(--gold);"></i> Potensi Dua Sertifikat</h3>
+                    <p class="benefit-text" style="margin-bottom: 1rem;">Mendapatkan sertifikat pelatihan resmi dari penyelenggara/pemateri.</p>
+                    <div class="benefit-bonus">
+                        <p><strong>Bonus:</strong> Peserta juga berkesempatan mendapatkan sertifikat AI Class ASEAN (Sesuai dengan syarat dan ketentuan penyelesaian modul yang berlaku).</p>
+                    </div>
+                </div>
+
+                <!-- Benefit 4 -->
+                <div class="benefit-card">
+                    <div class="benefit-num">04</div>
+                    <h3 class="benefit-title"><i class="fa-solid fa-book-open" style="color: var(--blue-bright);"></i> Modul Pelatihan</h3>
+                    <p class="benefit-text">Materi pembelajaran terstruktur yang dapat dibawa pulang dan dipelajari kembali setelah acara.</p>
+                </div>
+
+                <!-- Benefit 5 -->
+                <div class="benefit-card">
+                    <div class="benefit-num">05</div>
+                    <h3 class="benefit-title"><i class="fa-solid fa-bolt" style="color: var(--gold);"></i> Template Prompt Sakti</h3>
+                    <p class="benefit-text">Kumpulan template instruksi (prompt) siap pakai untuk menghasilkan output AI yang akurat dan terstruktur.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. "BUAT APA BELAJAR AI?" -->
+    <section class="section-padding usecase-section container-fluid">
+        <div class="max-w-4xl container-fluid text-center">
+            <h2 class="section-title">Bayangkan waktu yang biasanya habis berjam-jam...</h2>
+            <p class="section-desc">Kini bisa dioptimalkan dengan alur kerja yang tepat.</p>
+            
+            <div class="usecase-list">
+                <div class="usecase-item">
+                    <div class="usecase-icon"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <h4 class="usecase-title">Tugas Kuliah</h4>
+                        <p class="usecase-text">Membantu brainstorming, menyusun struktur makalah, dan mengembangkan ide penelitian.</p>
+                    </div>
+                </div>
+                <div class="usecase-item">
+                    <div class="usecase-icon"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <h4 class="usecase-title">Pekerjaan</h4>
+                        <p class="usecase-text">Membantu mempercepat pekerjaan repetitif, drafting email, laporan, dan proses administratif.</p>
+                    </div>
+                </div>
+                <div class="usecase-item">
+                    <div class="usecase-icon"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <h4 class="usecase-title">Konten & Kreativitas</h4>
+                        <p class="usecase-text">Dari ide yang hanya ada di kepala, dikembangkan menjadi skrip, visual, hingga berbagai format konten.</p>
+                    </div>
+                </div>
+                <div class="usecase-item">
+                    <div class="usecase-icon"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <h4 class="usecase-title">Presentasi & Bisnis</h4>
+                        <p class="usecase-text">Menyusun materi presentasi lebih cepat, membuat copywriting promosi, dan aset digital sederhana.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usecase-banner">
+                <h3>AI bukan untuk menggantikan manusia.</h3>
+                <p>AI membantu manusia menggunakan waktunya dengan lebih baik.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TENTANG BINTANG & 8. CREDENTIALS -->
+    <section class="section-padding about-section text-center container-fluid">
+        <div class="max-w-5xl container-fluid">
+            <h2 class="section-title" style="margin-bottom: 3rem;">Siapa yang akan membimbing kalian?</h2>
+            
+            <div class="about-card">
+                <!-- Photo Area -->
+                <div class="about-photo-area">
+                    <div class="about-photo">
+                        <img src="bepe.png" alt="Bintang Pamungkas Nusantara">
+                    </div>
+                    <h3 class="about-name">Bintang Pamungkas Nusantara</h3>
+                    <p class="about-role">Pengembang IT Muda Indonesia</p>
+                    <i class="fa-solid fa-code about-bg-icon"></i>
+                </div>
+                
+                <!-- Bio Area -->
+                <div class="about-bio-area text-left">
+                    <p class="usecase-text">
+                        Mahasiswa Program Studi Informatika di <strong>UIN Siber Syekh Nurjati Cirebon</strong>. Berdedikasi untuk membagikan pemahaman praktis tentang bagaimana teknologi dapat diakses dan dimanfaatkan oleh semua kalangan.
+                    </p>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="font-size: 0.875rem; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em;">Ketertarikan:</h4>
+                        <div class="about-tags">
+                            <span class="about-tag">Artificial Intelligence</span>
+                            <span class="about-tag">Web Development</span>
+                            <span class="about-tag">Digital Creativity</span>
+                            <span class="about-tag">Education</span>
+                        </div>
+                    </div>
+
+                    <blockquote class="about-quote">
+                        "Teknologi hanyalah alat. <br/>Kemanfaatan bagi manusia adalah tujuan."
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- 8. Detailed Credentials -->
+            <div style="margin-top: 4rem;">
+                <h3 class="section-title">Belajar dengan dasar pengalaman dan kredibilitas</h3>
+                
+                <div class="cert-list">
+                    <!-- Cert 1 -->
+                    <div class="cert-card">
+                        <div class="cert-img-wrapper">
+                            <img src="sertif.png" alt="Sertifikat AI Class ASEAN" class="cert-img">
+                        </div>
+                        <div class="cert-text">
+                            <h4 class="cert-title">AI Class ASEAN</h4>
+                            <p class="cert-subtitle" style="color: var(--gold);">Certificate of Completion</p>
+                            <p class="usecase-text">Telah menyelesaikan <strong>12-Hour AI Learning Modules</strong> (Agustus 2026).</p>
+                        </div>
+                    </div>
+
+                    <!-- Cert 2 -->
+                    <div class="cert-card">
+                        <div class="cert-img-wrapper order-2">
+                            <img src="pelatihan.png" alt="Logo MUI DKI Jakarta" class="cert-logo">
+                        </div>
+                        <div class="cert-text order-1">
+                            <h4 class="cert-title">MUI DKI Jakarta</h4>
+                            <p class="cert-subtitle text-blue" style="color: var(--blue-bright);">Bidang Pendidikan & Kaderisasi</p>
+                            <p class="usecase-text">Peserta Pelatihan AI yang diselenggarakan MUI DKI Jakarta. (Namun sertifikat masih dalam proses)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. SUASANA PELATIHAN -->
+    <section class="section-padding atmosphere-section container-fluid">
+        <div class="max-w-5xl container-fluid text-center">
+            <h2 class="section-title">Belajar AI dalam suasana yang nyaman</h2>
+            <p class="section-desc">Bukan ruangan formal yang kaku. Di PP Al-Masykuriyah, kita belajar dengan santai namun fokus.</p>
+
+            <div class="atmosphere-grid">
+                <div>
+                    <div class="atmosphere-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                    <h3 class="proof-title">Belajar</h3>
+                    <p class="proof-text">Ruang yang nyaman mendukung Anda untuk fokus menyerap materi.</p>
+                </div>
+                <div>
+                    <div class="atmosphere-icon"><i class="fa-solid fa-hammer"></i></div>
+                    <h3 class="proof-title">Praktik</h3>
+                    <p class="proof-text">Bawa laptop Anda. Kita tidak hanya mendengar, tapi langsung mencoba AI.</p>
+                </div>
+                <div>
+                    <div class="atmosphere-icon"><i class="fa-solid fa-comments"></i></div>
+                    <h3 class="proof-title">Berinteraksi</h3>
+                    <p class="proof-text">Ruang diskusi terbuka untuk tanya jawab dan memperluas networking.</p>
+                </div>
+            </div>
+
+            <div class="atmosphere-quote">
+                "Datang dengan rasa penasaran. Belajar bersama. Praktik langsung. <br class="md-hidden"/><span style="color: var(--blue-bright); font-weight: 800;">Pulang membawa wawasan dan karya baru.</span>"
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. DETAIL EVENT -->
+    <section id="daftar" class="event-section container-fluid">
+        <div class="event-blur"></div>
+
+        <div class="max-w-4xl container-fluid">
+            <div class="event-card">
+                
+                <!-- Left: Info -->
+                <div class="event-info">
+                    <h2 class="event-title">Pelatihan Artificial Intelligence</h2>
+                    
+                    <div class="info-list">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-regular fa-calendar"></i></div>
+                            <div>
+                                <p class="info-label">Tanggal Pelaksanaan</p>
+                                <p class="info-value">Minggu, 16 Agustus 2026</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+                            <div>
+                                <p class="info-label">Waktu</p>
+                                <p class="info-value">07.30 WIB — Selesai</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div>
+                                <p class="info-label">Lokasi</p>
+                                <p class="info-value">PP Al-Masykuriyah</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="participant-area">
+                        <p style="font-size: 0.875rem; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em;">Peserta:</p>
+                        <div class="participant-tags">
+                            <span class="participant-tag">Pelajar</span>
+                            <span class="participant-tag">Mahasiswa</span>
+                            <span class="participant-tag">Nahdliyin</span>
+                            <span class="participant-tag">Umum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Pricing & CTA -->
+                <div class="event-pricing">
+                    <p class="htm-label">HTM</p>
+                    <div class="htm-price">
+                        Rp75<span>.000</span>
+                    </div>
+                    
+                    <ul class="feature-list">
+                        <li class="feature-item"><i class="fa-solid fa-check"></i> Modul</li>
+                        <li class="feature-item"><i class="fa-solid fa-check"></i> Makan siang</li>
+                        <li class="feature-item"><i class="fa-solid fa-check"></i> Sertifikat digital</li>
+                        <li class="feature-item"><i class="fa-solid fa-check"></i> Template Prompt Sakti</li>
+                        <li class="feature-item"><i class="fa-solid fa-check"></i> Pembelajaran interaktif</li>
+                    </ul>
+
+                    <!-- CTA Buttons -->
+                    <a href="https://forms.gle/EHbUKLfpRmSaHLws5" class="btn-block btn-primary">
+                        DAFTAR SEKARANG
+                    </a>
+                    <a href="https://wa.me/6282125071845" target="_blank" class="btn-block btn-wa">
+                        <i class="fa-brands fa-whatsapp" style="color: var(--green-500); font-size: 1.25rem; margin-right: 0.5rem;"></i> Tanya via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. BIG CTA & 12. FINAL CTA -->
+    <section class="big-cta container-fluid">
+        <div class="max-w-3xl container-fluid text-center">
+            <h2 class="big-cta-title">Jangan biarkan ide kalian <br/> berhenti di kepala.</h2>
+            <p class="big-cta-subtitle">Belajar AI. Kembangkan ide. Ciptakan karya.</p>
+            
+            <a href="https://forms.gle/EHbUKLfpRmSaHLws5" class="btn-white">
+                🚀 DAFTAR SEKARANG
+            </a>
+            
+            <p style="font-size: 0.875rem; color: var(--gray-400); margin-bottom: 0.5rem;">atau hubungi panitia</p>
+            <a href="https://wa.me/6282125071845" target="_blank" class="wa-link">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.25rem;"></i> +62 821 2507 1845
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer container-fluid">
+        <div class="max-w-4xl container-fluid text-center">
+            <p class="footer-quote">"Belajar teknologi hari ini, ciptakan masa depan yang lebih baik."</p>
+            <div class="footer-divider"></div>
+            <p class="footer-name">Bintang Pamungkas Nusantara</p>
+            <p class="footer-role">Pengembang IT Muda Indonesia</p>
+            <p class="footer-copy">Pelatihan Artificial Intelligence &copy; 16 Agustus 2026</p>
+        </div>
+    </footer>
+
+</body>
+</html>
