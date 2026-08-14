@@ -43,7 +43,6 @@
             color: var(--gray-800);
             background-color: var(--bg-light);
             -webkit-font-smoothing: antialiased;
-            padding-bottom: 5rem; /* mobile bottom padding for sticky CTA */
             overflow-x: hidden;
             width: 100%;
         }
@@ -82,27 +81,7 @@
         .max-w-5xl { max-width: 64rem; }
         .text-center { text-align: center; }
 
-        /* =========================================
-           STICKY BOTTOM CTA (Mobile Only)
-        ========================================= */
-        .sticky-cta {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background-color: white; border-top: 1px solid var(--gray-200);
-            padding: 1rem 1.25rem; box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-            z-index: 50; display: flex; justify-content: space-between; align-items: center;
-        }
-        @media (min-width: 768px) { .sticky-cta { display: none; } }
         
-        .sticky-cta p:first-child { font-size: 0.75rem; color: var(--gray-500); font-weight: 500; }
-        .sticky-cta p:last-child { font-size: 1.125rem; font-weight: 800; color: var(--navy); }
-        .btn-sticky {
-            background-color: var(--blue-bright); color: white;
-            padding: 0.75rem 1.5rem; border-radius: 9999px;
-            font-weight: 700; font-size: 0.875rem;
-            box-shadow: 0 10px 15px -3px rgba(21, 94, 239, 0.3);
-        }
-        .btn-sticky:active { transform: scale(0.95); }
-
         /* =========================================
            1. HERO SECTION
         ========================================= */
@@ -317,11 +296,17 @@
         @media (min-width: 768px) { .cert-img-wrapper.order-2 { order: 2; } .cert-text.order-1 { order: 1; } }
         
         .cert-img { width: 100%; max-width: 28rem; height: auto; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); object-fit: contain; }
-        .cert-logo { width: 8rem; height: auto; object-fit: contain; }
-        @media (min-width: 768px) { .cert-logo { width: 12rem; } }
-        
-        .cert-text { width: 100%; text-align: center; }
-        @media (min-width: 768px) { .cert-text { width: 50%; text-align: left; } }
+        .cert-logo {
+    width: 100%;
+    max-width: 28rem;
+    height: auto;
+    object-fit: contain;
+    }
+
+    .cert-text {
+    width: 100%;
+    text-align: center;
+    }
         
         .cert-title { font-size: clamp(1.25rem, 3vw + 0.5rem, 1.875rem); font-weight: 800; color: var(--navy); margin-bottom: 0.5rem; }
         .cert-subtitle { font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
@@ -401,16 +386,6 @@
 </head>
 <body>
 
-    <!-- STICKY BOTTOM CTA (Mobile Only) -->
-    <div class="sticky-cta">
-        <div>
-            <p>HTM Pelatihan</p>
-            <p>Rp75.000</p>
-        </div>
-        <a href="https://forms.gle/ypDzBPNyFh4beBB77" class="btn-sticky">
-            Daftar Sekarang &rarr;
-        </a>
-    </div>
 
     <!-- 1. HERO SECTION -->
     <section class="hero bg-pattern container-fluid">
@@ -460,7 +435,7 @@
         <div class="max-w-3xl container-fluid text-center">
             <h2 class="hook-title">
                 "AI sudah gratis di mana-mana. <br />
-                <span>Yang bikin mahal adalah tahu mau dipakai apa.</span>"
+                <span>Yang bikin mahal adalah mau dipakai apa AI-nya?.</span>"
             </h2>
             
             <div class="hook-text">
